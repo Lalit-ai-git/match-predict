@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaldean Sports Numerology Predictor</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: var(--secondary);
+            font-style: italic;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .result-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #c0392b;
+        }
+        
+        .result-content {
+            display: none;
+        }
+        
+        .prediction {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .team-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .winner {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 15px 0;
+        }
+        
+        .explanation {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+        }
+        
+        .team-members {
+            margin-top: 10px;
+        }
+        
+        .score-comparison {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .team-score {
+            width: 48%;
+            min-width: 250px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .team-score h4 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .team-score {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Chaldean Sports Numerology</h1>
+        <p class="subtitle">Predict match outcomes using ancient numerology principles</p>
+    </header>
+    
+    <div class="container">
+        <section class="input-section">
+            <h2>Match Details</h2>
+            <form id="predictionForm">
+                <div class="form-group">
+                    <label for="team1">Team 1 Name</label>
+                    <input type="text" id="team1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="team2">Team 2 Name</label>
+                    <input type="text" id="team2" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="matchDate">Date of Match</label>
+                    <input type="date" id="matchDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="matchTime">Start Time</label>
+                    <input type="time" id="matchTime" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="stadium">Stadium Name (optional)</label>
+                    <input type="text" id="stadium">
+                </div>
+                
+                <h2>Team 1 Details</h2>
+                <div class="form-group">
+                    <label for="captain1">Captain's Name</label>
+                    <input type="text" id="captain1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="petname1">Captain's Pet Name (optional)</label>
+                    <input type="text" id="petname1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="membersCount1">Number of Team Members (excluding captain)</label>
+                    <input type="number" id="membersCount1" min="0" required>
+                </div>
+                
+                <div class="form-group team-members">
+                    <label for="members1">Team Members Names (optional, comma separated)</label>
+                    <textarea id="members1" placeholder="John, Michael, David..."></textarea>
+                </div>
+                
+                <h2>Team 2 Details</h2>
+                <div class="form-group">
+                    <label for="captain2">Captain's Name</label>
+                    <input type="text" id="captain2" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="petname2">Captain's Pet Name (optional)</label>
+                    <input type="text" id="petname2">
+                </div>
+                
+                <div class="form-group">
+                    <label for="membersCount2">Number of Team Members (excluding captain)</label>
+                    <input type="number" id="membersCount2" min="0" required>
+                </div>
+                
+                <div class="form-group team-members">
+                    <label for="members2">Team Members Names (optional, comma separated)</label>
+                    <textarea id="members2" placeholder="Alex, Chris, Sam..."></textarea>
+                </div>
+                
+                <button type="button" id="predictBtn">Predict Winner</button>
+            </form>
+        </section>
+        
+        <section class="result-section">
+            <h2>Prediction Result</h2>
+            <div id="resultContent" class="result-content">
+                <div class="prediction">
+                    <p>The match between <span class="team-name" id="resultTeam1">Team 1</span> and 
+                    <span class="team-name" id="resultTeam2">Team 2</span> on 
+                    <span id="resultDate">date</span> at <span id="resultTime">time</span>:</p>
+                    
+                    <p class="winner" id="winnerPrediction">Predicted Winner</p>
+                    
+                    <div class="explanation">
+                        <div id="numerologyExplanation"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="emptyResult">
+                <p>Enter match details and click "Predict Winner" to see the Chaldean numerology prediction.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('matchDate').value = today;
+            
+            // Set default time to current hour
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('matchTime').value = `${hours}:${minutes}`;
+            
+            // Add event listener
+            document.getElementById('predictBtn').addEventListener('click', predictWinner);
+        });
+
+        function predictWinner() {
+            // Get all input values
+            const team1 = document.getElementById('team1').value.trim();
+            const team2 = document.getElementById('team2').value.trim();
+            const matchDate = document.getElementById('matchDate').value;
+            const matchTime = document.getElementById('matchTime').value;
+            const location = document.getElementById('location').value.trim();
+            
+            const captain1 = document.getElementById('captain1').value.trim();
+            const petname1 = document.getElementById('petname1').value.trim();
+            const membersCount1 = parseInt(document.getElementById('membersCount1').value);
+            const members1 = document.getElementById('members1').value.split(',').map(m => m.trim()).filter(m => m);
+            
+            const captain2 = document.getElementById('captain2').value.trim();
+            const petname2 = document.getElementById('petname2').value.trim();
+            const membersCount2 = parseInt(document.getElementById('membersCount2').value);
+            const members2 = document.getElementById('members2').value.split(',').map(m => m.trim()).filter(m => m);
+            
+            // Validate required fields
+            if (!team1 || !team2 || !matchDate || !matchTime || !location || !captain1 || !captain2 || isNaN(membersCount1) || isNaN(membersCount2)) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Calculate Chaldean numerology values with detailed breakdowns
+            const team1Result = calculateTeamScoreWithDetails(team1, captain1, petname1, membersCount1, members1, matchDate, matchTime);
+            const team2Result = calculateTeamScoreWithDetails(team2, captain2, petname2, membersCount2, members2, matchDate, matchTime);
+            
+            // Determine winner
+            let winner, explanation;
+            if (team1Result.totalScore > team2Result.totalScore) {
+                winner = team1;
+                explanation = generateDetailedExplanation(team1, team2, team1Result, team2Result, 'higher');
+            } else if (team2Result.totalScore > team1Result.totalScore) {
+                winner = team2;
+                explanation = generateDetailedExplanation(team2, team1, team2Result, team1Result, 'higher');
+            } else {
+                winner = "It's a tie!";
+                explanation = generateDetailedExplanation(team1, team2, team1Result, team2Result, 'equal');
+            }
+            
+            // Display results
+            document.getElementById('resultTeam1').textContent = team1;
+            document.getElementById('resultTeam2').textContent = team2;
+            
+            const dateObj = new Date(matchDate);
+            const formattedDate = dateObj.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            document.getElementById('resultDate').textContent = formattedDate;
+            document.getElementById('resultTime').textContent = matchTime;
+            document.getElementById('winnerPrediction').textContent = winner === "It's a tie!" ? winner : `${winner} is predicted to win!`;
+            document.getElementById('numerologyExplanation').innerHTML = explanation;
+            
+            // Show results
+            document.getElementById('emptyResult').style.display = 'none';
+            document.getElementById('resultContent').style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('resultContent').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Chaldean numerology calculation
+        function calculateChaldeanNumber(name) {
+            if (!name) return 0;
+            
+            const chaldeanMap = {
+                'a': 1, 'i': 1, 'j': 1, 'q': 1, 'y': 1,
+                'b': 2, 'k': 2, 'r': 2,
+                'c': 3, 'g': 3, 'l': 3, 's': 3,
+                'd': 4, 'm': 4, 't': 4,
+                'e': 5, 'h': 5, 'n': 5, 'x': 5,
+                'u': 6, 'v': 6, 'w': 6,
+                'o': 7, 'z': 7,
+                'f': 8, 'p': 8
+            };
+            
+            let sum = 0;
+            const lowerName = name.toLowerCase();
+            
+            for (let i = 0; i < lowerName.length; i++) {
+                const char = lowerName[i];
+                if (chaldeanMap[char]) {
+                    sum += chaldeanMap[char];
+                }
+            }
+            
+            // Reduce to single digit (unless it's 11, 22 which are master numbers)
+            if (sum !== 11 && sum !== 22 && sum > 9) {
+                sum = Math.floor(sum / 10) + (sum % 10);
+            }
+            
+            return sum;
+        }
+        
+        function calculateTeamScoreWithDetails(teamName, captain, petName, memberCount, members, date, time) {
+            // Base team name score
+            const teamNameScore = calculateChaldeanNumber(teamName);
+            
+            // Captain's name score
+            const captainScore = calculateChaldeanNumber(captain);
+            
+            // Pet name score (if available)
+            const petNameScore = petName ? calculateChaldeanNumber(petName) : 0;
+            
+            // Members count score (simple numerology)
+            const memberCountValue = memberCount > 9 ? 
+                (Math.floor(memberCount / 10) + (memberCount % 10)) : 
+                memberCount;
+            
+            // Members names score (average if members listed)
+            let membersScore = 0;
+            let membersList = [];
+            if (members.length > 0) {
+                const membersSum = members.reduce((sum, member) => sum + calculateChaldeanNumber(member), 0);
+                membersScore = membersSum / members.length;
+                membersList = members;
+            }
+            
+            // Date analysis
+            const dateObj = new Date(date);
+            const day = dateObj.getDate();
+            const month = dateObj.getMonth() + 1;
+            const dayValue = day > 9 ? (Math.floor(day / 10) + (day % 10)) : day;
+            const monthValue = month > 9 ? (Math.floor(month / 10) + (month % 10)) : month;
+            const dateValue = dayValue + monthValue;
+            
+            // Time analysis
+            const [hours] = time.split(':').map(Number);
+            const hourValue = hours > 12 ? hours - 12 : hours;
+            
+            // Calculate weighted scores
+            const weights = {
+                teamName: 0.3,
+                captain: 0.25,
+                petName: 0.1,
+                membersCount: 0.05,
+                members: 0.1,
+                date: 0.1,
+                time: 0.1
+            };
+            
+            const teamNameWeighted = teamNameScore * weights.teamName;
+            const captainWeighted = captainScore * weights.captain;
+            const petNameWeighted = petNameScore * weights.petName;
+            const membersCountWeighted = memberCountValue * weights.membersCount;
+            const membersWeighted = membersScore * weights.members;
+            const dateWeighted = dateValue * weights.date;
+            const timeWeighted = hourValue * weights.time;
+            
+            // Calculate total score
+            const totalScore = 
+                teamNameWeighted +
+                captainWeighted +
+                petNameWeighted +
+                membersCountWeighted +
+                membersWeighted +
+                dateWeighted +
+                timeWeighted;
+            
+            return {
+                teamName: teamName,
+                totalScore: totalScore,
+                components: {
+                    teamName: {
+                        name: teamName,
+                        value: teamNameScore,
+                        weight: weights.teamName,
+                        score: teamNameWeighted,
+                        explanation: `Team name "${teamName}" has a Chaldean number of ${teamNameScore} (${getNumberMeaning(teamNameScore)})`
+                    },
+                    captain: {
+                        name: captain,
+                        value: captainScore,
+                        weight: weights.captain,
+                        score: captainWeighted,
+                        explanation: `Captain "${captain}" has a Chaldean number of ${captainScore} (${getNumberMeaning(captainScore)})`
+                    },
+                    petName: petName ? {
+                        name: petName,
+                        value: petNameScore,
+                        weight: weights.petName,
+                        score: petNameWeighted,
+                        explanation: `Pet name "${petName}" adds a Chaldean number of ${petNameScore} (${getNumberMeaning(petNameScore)})`
+                    } : {
+                        name: "None",
+                        value: 0,
+                        weight: weights.petName,
+                        score: 0,
+                        explanation: "No pet name provided (neutral influence)"
+                    },
+                    membersCount: {
+                        count: memberCount,
+                        value: memberCountValue,
+                        weight: weights.membersCount,
+                        score: membersCountWeighted,
+                        explanation: `Team size of ${memberCount} reduces to ${memberCountValue} in numerology`
+                    },
+                    members: members.length > 0 ? {
+                        names: membersList,
+                        value: membersScore,
+                        weight: weights.members,
+                        score: membersWeighted,
+                        explanation: `${members.length} team members average to Chaldean number ${membersScore.toFixed(2)}`
+                    } : {
+                        names: [],
+                        value: 0,
+                        weight: weights.members,
+                        score: 0,
+                        explanation: "No additional team members provided (neutral influence)"
+                    },
+                    date: {
+                        date: date,
+                        day: day,
+                        month: month,
+                        dayValue: dayValue,
+                        monthValue: monthValue,
+                        value: dateValue,
+                        weight: weights.date,
+                        score: dateWeighted,
+                        explanation: `Match date ${day}/${month} reduces to ${dayValue} (day) + ${monthValue} (month) = ${dateValue}`
+                    },
+                    time: {
+                        time: time,
+                        hour: hours,
+                        value: hourValue,
+                        weight: weights.time,
+                        score: timeWeighted,
+                        explanation: `Match time ${hours}:00 reduces to hour ${hourValue} in numerology`
+                    }
+                },
+                summary: `
+                    <strong>${teamName} Total Score:</strong> ${totalScore.toFixed(2)}<br>
+                    • Team Name: ${teamNameWeighted.toFixed(2)} (${teamNameScore})<br>
+                    • Captain: ${captainWeighted.toFixed(2)} (${captainScore})<br>
+                    • Pet Name: ${petNameWeighted.toFixed(2)} (${petNameScore})<br>
+                    • Team Size: ${membersCountWeighted.toFixed(2)} (${memberCountValue})<br>
+                    • Members: ${membersWeighted.toFixed(2)} (${membersScore.toFixed(2)})<br>
+                    • Date: ${dateWeighted.toFixed(2)} (${dateValue})<br>
+                    • Time: ${timeWeighted.toFixed(2)} (${hourValue})
+                `
+            };
+        }
+        
+        // Number meanings in Chaldean numerology
+        function getNumberMeaning(number) {
+            const meanings = {
+                1: "Leadership, independence, innovation",
+                2: "Cooperation, balance, diplomacy",
+                3: "Creativity, expression, sociability",
+                4: "Stability, process, practicality",
+                5: "Freedom, change, adaptability",
+                6: "Responsibility, protection, nurturing",
+                7: "Analysis, understanding, knowledge",
+                8: "Practicality, ambition, material success",
+                9: "Humanitarian, compassionate, artistic",
+                11: "Inspiration, spiritual insight (Master Number)",
+                22: "Master builder, large-scale accomplishment (Master Number)"
+            };
+            return meanings[number] || "Neutral influence";
+        }
+        
+        // Generate detailed explanation of the prediction
+        function generateDetailedExplanation(winningTeam, losingTeam, winnerData, loserData, comparison) {
+            let explanation = `
+                <h3>Numerology Breakdown</h3>
+                <div class="score-comparison">
+                    <div class="team-score">
+                        <h4>${winningTeam}</h4>
+                        ${winnerData.summary}
+                    </div>
+                    <div class="team-score">
+                        <h4>${losingTeam}</h4>
+                        ${loserData.summary}
+                    </div>
+                </div>
+                
+                <h3>Detailed Analysis</h3>
+            `;
+            
+            if (comparison === 'higher') {
+                explanation += `
+                    <p>The <strong>${winningTeam}</strong> achieved a higher overall numerology score of <strong>${winnerData.totalScore.toFixed(2)}</strong> 
+                    compared to <strong>${losingTeam}</strong>'s score of <strong>${loserData.totalScore.toFixed(2)}</strong>.</p>
+                    
+                    <h4>Key Advantages for ${winningTeam}:</h4>
+                    <ul>
+                `;
+                
+                // Compare each component to find the biggest advantages
+                const components = ['teamName', 'captain', 'petName', 'membersCount', 'members', 'date', 'time'];
+                components.forEach(comp => {
+                    const winComp = winnerData.components[comp];
+                    const loseComp = loserData.components[comp];
+                    const difference = winComp.score - loseComp.score;
+                    
+                    if (difference > 0.1) {
+                        explanation += `
+                            <li>
+                                <strong>${comp.replace(/([A-Z])/g, ' $1').trim()}:</strong> 
+                                ${winComp.explanation}<br>
+                                (${winComp.score.toFixed(2)} vs ${loseComp.score.toFixed(2)})
+                            </li>
+                        `;
+                    }
+                });
+                
+                explanation += `
+                    </ul>
+                    
+                    <h4>Numerological Interpretation:</h4>
+                    <p>The numbers reveal that ${winningTeam} has stronger vibrational alignment in these key areas:</p>
+                    <ul>
+                        <li><strong>Team Name Energy:</strong> ${getNumberMeaning(winnerData.components.teamName.value)}</li>
+                        <li><strong>Captain's Influence:</strong> ${getNumberMeaning(winnerData.components.captain.value)}</li>
+                `;
+                
+                if (winnerData.components.petName.value > 0) {
+                    explanation += `<li><strong>Captain's Pet Name:</strong> ${getNumberMeaning(winnerData.components.petName.value)}</li>`;
+                }
+                
+                explanation += `
+                        <li><strong>Date Vibration:</strong> The match date (${winnerData.components.date.day}/${winnerData.components.date.month}) favors ${winningTeam}</li>
+                        <li><strong>Time Vibration:</strong> The start time (${winnerData.components.time.hour}:00) is auspicious</li>
+                    </ul>
+                    
+                    <h4>Final Prediction Confidence:</h4>
+                    <p>Based on Chaldean numerology principles, ${winningTeam} demonstrates <strong>${calculateConfidenceLevel(winnerData.totalScore, loserData.totalScore)} confidence</strong> 
+                    of success due to stronger energetic alignment across multiple factors.</p>
+                `;
+            } else {
+                explanation += `
+                    <p>Both teams achieved identical overall numerology scores of <strong>${winnerData.totalScore.toFixed(2)}</strong>, 
+                    indicating perfectly balanced energies.</p>
+                    
+                    <h4>Notable Similarities:</h4>
+                    <ul>
+                `;
+                
+                // Highlight similar scoring components
+                const components = ['teamName', 'captain', 'petName', 'membersCount', 'members', 'date', 'time'];
+                components.forEach(comp => {
+                    const winComp = winnerData.components[comp];
+                    const loseComp = loserData.components[comp];
+                    
+                    if (Math.abs(winComp.score - loseComp.score) < 0.05) {
+                        explanation += `
+                            <li>
+                                <strong>${comp.replace(/([A-Z])/g, ' $1').trim()}:</strong> 
+                                Both teams scored similarly (${winComp.score.toFixed(2)} vs ${loseComp.score.toFixed(2)})
+                            </li>
+                        `;
+                    }
+                });
+                
+                explanation += `
+                    </ul>
+                    
+                    <h4>Numerological Interpretation:</h4>
+                    <p>This rare balanced alignment suggests:</p>
+                    <ul>
+                        <li>The teams are evenly matched energetically</li>
+                        <li>No clear vibrational advantage for either side</li>
+                        <li>The outcome may depend on non-numerological factors or chance</li>
+                    </ul>
+                    
+                    <h4>Final Prediction:</h4>
+                    <p>According to Chaldean numerology principles, when scores are perfectly balanced, 
+                    the match is likely to be extremely close, possibly ending in a draw or being decided 
+                    by factors beyond the scope of this analysis.</p>
+                `;
+            }
+            
+            return explanation;
+        }
+        
+        function calculateConfidenceLevel(winningScore, losingScore) {
+            const difference = winningScore - losingScore;
+            if (difference > 3) return "very high";
+            if (difference > 2) return "high";
+            if (difference > 1) return "moderate";
+            return "low";
+        }
+    </script>
+</body>
+</html>
